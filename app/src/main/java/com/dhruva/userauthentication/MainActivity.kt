@@ -1,5 +1,7 @@
 package com.dhruva.userauthentication
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
 import android.view.KeyEvent
@@ -109,6 +111,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
         val confirmPassword: String = mBinding.confirmPasswordEt.text.toString()
         if (password != confirmPassword) {
             errorMessage = "Confirm password doesn't match with Password"
+            mBinding.confirmPasswordTil.apply {
+                isErrorEnabled = true
+                error = errorMessage
+            }
         }
         return errorMessage == null
     }
@@ -147,7 +153,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
                         }
                     }
                     else {
-                        if (validatePassword() && mBinding.passwordEt.text!!.isNotEmpty() && validateConfirmPassword() && validatePasswordAndConfirmPassword())
+                        if (validatePassword() && mBinding.passwordEt.text!!.isNotEmpty() && validateConfirmPassword() && validatePasswordAndConfirmPassword()) {
+                            if (mBinding.confirmPasswordTil.isErrorEnabled) {
+                                mBinding.confirmPasswordTil.isErrorEnabled = false
+                            }
+                            mBinding.confirmPasswordTil.apply {
+                                setStartIconDrawable(R.drawable.check_circle_24)
+                                setStartIconTintList(ColorStateList.valueOf(Color.GREEN))
+                            }
+                        }
                     }
                 }
                 R.id.confirmPasswordEt -> {
@@ -157,8 +171,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChan
                         }
                     }
                     else {
-                        validateConfirmPassword()
-                        validatePasswordAndConfirmPassword()
+                        if (validatePassword() && validateConfirmPassword() && validatePasswordAndConfirmPassword()) {
+                            if (mBinding.passwordTil.isErrorEnabled) {
+                                mBinding.passwordTil.isErrorEnabled = false
+                            }
+                            mBinding.confirmPasswordTil.apply {
+                                setStartIconDrawable(R.drawable.check_circle_24)
+                                setStartIconTintList(ColorStateList.valueOf(Color.GREEN))
+                            }
+                        }
                     }
                 }
             }
