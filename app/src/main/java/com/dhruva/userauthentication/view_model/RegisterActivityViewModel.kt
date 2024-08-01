@@ -30,14 +30,16 @@ class RegisterActivityViewModel(val authRepository: AuthRepository, val applicat
     fun validateEmailAddress(body: ValidateEmailBody) {
         viewModelScope.launch {
             authRepository.validateEmailAddress(body).collect {
-                when(it) {
+                when (it) {
                     is RequestStatus.Waiting -> {
                         isLoading.value = true
                     }
+
                     is RequestStatus.Success -> {
                         isLoading.value = false
                         isUniqueEmail.value = it.data.isUnique
                     }
+
                     is RequestStatus.Error -> {
                         isLoading.value = false
                         errorMessage.value = it.message
@@ -50,20 +52,23 @@ class RegisterActivityViewModel(val authRepository: AuthRepository, val applicat
     fun registerUser(body: RegisterBody) {
         viewModelScope.launch {
             authRepository.registerUser(body).collect {
-                when(it) {
+                when (it) {
                     is RequestStatus.Waiting -> {
                         isLoading.value = true
                     }
+
                     is RequestStatus.Success -> {
                         isLoading.value = false
                         user.value = it.data.user
                         AuthToken.getInstance(application.baseContext).token = it.data.token
                     }
+
                     is RequestStatus.Error -> {
                         isLoading.value = false
                         errorMessage.value = it.message
                     }
                 }
             }
-        }}
+        }
+    }
 }

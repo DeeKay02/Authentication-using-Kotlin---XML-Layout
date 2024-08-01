@@ -5,4 +5,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="register_button">Register</string>
+    <string name="login_button">Login</string>
+    <string name="login_with_google_button">Login with Google</string>
+    <string name="newUserInfo">If you are a new user Click</string>
 </resources>

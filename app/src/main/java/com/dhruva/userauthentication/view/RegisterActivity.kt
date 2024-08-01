@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -44,7 +43,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
         mBinding.confirmPasswordEt.addTextChangedListener(this)
         mBinding.confirmPasswordEt.setOnKeyListener(this)
         mBinding.registerBtn.setOnClickListener(this)
-        mViewModel = ViewModelProvider(this, RegisterActivityViewModelFactory(AuthRepository(APIService.getService()), application)).get(RegisterActivityViewModel::class.java)
+        mViewModel = ViewModelProvider(
+            this,
+            RegisterActivityViewModelFactory(AuthRepository(APIService.getService()), application)
+        ).get(RegisterActivityViewModel::class.java)
         setupObservers()
     }
 
@@ -61,8 +63,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
                         setStartIconDrawable(R.drawable.check_circle_24)
                         setStartIconTintList(ColorStateList.valueOf(Color.GREEN))
                     }
-                }
-                else {
+                } else {
                     mBinding.emailTil.apply {
                         if (startIconDrawable != null) startIconDrawable = null
                         isErrorEnabled = true
@@ -77,19 +78,21 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
             val message = StringBuilder()
             it.map { entry ->
                 if (fromErrorKeys.contains(entry.key)) {
-                    when(entry.key) {
+                    when (entry.key) {
                         "fullName" -> {
                             mBinding.fullNameTil.apply {
                                 isErrorEnabled = true
                                 error = entry.value
                             }
                         }
+
                         "email" -> {
                             mBinding.emailTil.apply {
                                 isErrorEnabled = true
                                 error = entry.value
                             }
                         }
+
                         "password" -> {
                             mBinding.passwordTil.apply {
                                 isErrorEnabled = true
@@ -97,17 +100,16 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     message.append(entry.value).append("\n")
                 }
 
-                if(message.isNotEmpty()) {
+                if (message.isNotEmpty()) {
                     AlertDialog.Builder(this)
                         .setIcon(R.drawable.info_24)
                         .setTitle("INFORMATION")
                         .setMessage(message)
-                        .setPositiveButton("OK") {dialog, _ -> dialog!!.dismiss()}
+                        .setPositiveButton("OK") { dialog, _ -> dialog!!.dismiss() }
                         .show()
                 }
             }
@@ -137,7 +139,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
         return errorMessage == null
     }
 
-    private fun validateEmail(shouldUpdateValue: Boolean = true, shouldVibrateView: Boolean = true): Boolean {
+    private fun validateEmail(
+        shouldUpdateValue: Boolean = true,
+        shouldVibrateView: Boolean = true
+    ): Boolean {
         var errorMessage: String? = null
         val value: String = mBinding.emailEt.text.toString()
         if (value.isEmpty()) {
@@ -157,7 +162,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
         return errorMessage == null
     }
 
-    private fun validatePassword(shouldUpdateValue: Boolean = true, shouldVibrateView: Boolean = true): Boolean {
+    private fun validatePassword(
+        shouldUpdateValue: Boolean = true,
+        shouldVibrateView: Boolean = true
+    ): Boolean {
         var errorMessage: String? = null
         val value: String = mBinding.passwordEt.text.toString()
         if (value.isEmpty()) {
@@ -177,7 +185,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
         return errorMessage == null
     }
 
-    private fun validateConfirmPassword(shouldUpdateValue: Boolean = true, shouldVibrateView: Boolean = true): Boolean {
+    private fun validateConfirmPassword(
+        shouldUpdateValue: Boolean = true,
+        shouldVibrateView: Boolean = true
+    ): Boolean {
         var errorMessage: String? = null
         val value: String = mBinding.confirmPasswordEt.text.toString()
         if (value.isEmpty()) {
@@ -197,7 +208,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
         return errorMessage == null
     }
 
-    private fun validatePasswordAndConfirmPassword(shouldUpdateValue: Boolean = true, shouldVibrateView: Boolean = true): Boolean {
+    private fun validatePasswordAndConfirmPassword(
+        shouldUpdateValue: Boolean = true,
+        shouldVibrateView: Boolean = true
+    ): Boolean {
         var errorMessage: String? = null
         val password: String = mBinding.passwordEt.text.toString()
         val confirmPassword: String = mBinding.confirmPasswordEt.text.toString()
@@ -293,14 +307,16 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
     }
 
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        if(validatePassword(shouldUpdateValue = false) && validateConfirmPassword(shouldUpdateValue = false) && validatePasswordAndConfirmPassword(shouldUpdateValue = false)) {
+        if (validatePassword(shouldUpdateValue = false) && validateConfirmPassword(shouldUpdateValue = false) && validatePasswordAndConfirmPassword(
+                shouldUpdateValue = false
+            )
+        ) {
             mBinding.confirmPasswordTil.apply {
-                if(isErrorEnabled) isErrorEnabled = false
+                if (isErrorEnabled) isErrorEnabled = false
                 setStartIconDrawable(R.drawable.check_circle_24)
                 setStartIconTintList(ColorStateList.valueOf(Color.GREEN))
             }
-        }
-        else if(mBinding.confirmPasswordTil.startIconDrawable != null)
+        } else if (mBinding.confirmPasswordTil.startIconDrawable != null)
             mBinding.confirmPasswordTil.startIconDrawable = null
     }
 
@@ -308,7 +324,13 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
 
     private fun onSubmit() {
         if (validate()) {
-            mViewModel.registerUser(RegisterBody(mBinding.fullNameEt.text!!.toString(), mBinding.emailEt.text!!.toString(), mBinding.passwordEt.text!!.toString()))
+            mViewModel.registerUser(
+                RegisterBody(
+                    mBinding.fullNameEt.text!!.toString(),
+                    mBinding.emailEt.text!!.toString(),
+                    mBinding.passwordEt.text!!.toString()
+                )
+            )
         }
     }
 
