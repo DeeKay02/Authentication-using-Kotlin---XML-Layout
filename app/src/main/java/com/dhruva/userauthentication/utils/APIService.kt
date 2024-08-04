@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object APIService {
-    private const val BASE_URL = "http://base_url/"
+    private const val BASE_URL = "https://kotlin-auth.onrender.com/"
 
     fun getService(): APIConsumer {
         val client: OkHttpClient = OkHttpClient.Builder()

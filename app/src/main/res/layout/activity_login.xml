@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:fitsSystemWindows="true"
     tools:context=".view.LoginActivity">
 
     <RelativeLayout
@@ -102,6 +103,7 @@
                 android:layout_marginTop="8dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:backgroundTint="@color/wl_green"
                 android:text="@string/login_button"
                 tools:ignore="VisualLintButtonSize" />
 
@@ -113,6 +115,7 @@
                 android:layout_marginTop="8dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:textColor="@color/wl_green"
                 android:text="@string/login_with_google_button"
                 app:icon="@mipmap/google"
                 app:iconSize="36dp"
@@ -137,7 +140,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:text="@string/register_button"
-                    android:textColor="@color/hyperlink"
+                    android:textColor="@color/wl_green"
                     tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
         </LinearLayout>
